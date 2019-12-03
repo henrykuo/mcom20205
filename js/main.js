@@ -10353,23 +10353,23 @@ $__System.register('b', ['7', '9', 'a'], function (_export) {
 				switch (variant) {
 					case 'a1':
 						$('body').addClass('menuA1');
-						document.title = 'Menu under, Icon no change, X overlay';
+						document.title = 'SLIDER A1, Menu under, Icon no change, X overlay';
 						break;
 					case 'a2':
 						$('body').addClass('menuA2');
-						document.title = 'Menu under, Icon turns red, X overlay';
+						document.title = 'SLIDER A2, Menu under, Icon turns red, X overlay';
 						break;
 					case 'a3':
 						$('body').addClass('menuA3');
-						document.title = 'Menu under, Icon turns to X, No X overlay';
+						document.title = 'SLIDER A3, Menu under, Icon turns to X, No X overlay';
 						break;
 					case 'b1':
 						$('body').addClass('menuB1');
-						document.title = 'Menu over, X overlay';
+						document.title = 'SLIDER B1, Menu over, X overlay';
 						break;
 					case 'b2':
 						$('body').addClass('menuB2');
-						document.title = 'Menu over, No X overlay';
+						document.title = 'SLIDER B2, Menu over, No X overlay';
 						break;
 				}
 			});
