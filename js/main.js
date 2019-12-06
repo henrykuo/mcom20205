@@ -10181,7 +10181,7 @@ $__System.register('a', ['9'], function (_export) {
 			$ = _['default'];
 		}],
 		execute: function () {
-			html_snippet = '<div id=lg style="\n\tbackground:rgba(0,0,0,.88);\n\tposition:fixed;\n\tbottom:0;\n\tright:0;\n\tcolor:#ccc;\n\tpadding:5px;\n\tfont-family:Inconsolata, arial;\n\tfont-size:.7em;\n\tz-index:9999;\n\t-webkit-font-smoothing:subpixel-antialiased;\n\tdisplay:none;\n\tline-height:1.1em;\n\tborder-top-left-radius: 5px;\n\t"></div>';
+			html_snippet = '<div id=lg style="\n\tbackground:rgba(0,0,0,.88);\n\tposition:fixed;\n\tbottom:0;\n\tright:0;\n\tcolor:#ccc;\n\tpadding:5px;\n\tfont-family:Inconsolata, arial;\n\tfont-size:.65em;\n\tz-index:9999;\n\t-webkit-font-smoothing:subpixel-antialiased;\n\tdisplay:none;\n\tline-height:1.1em;\n\tborder-top-left-radius: 5px;\n\t"></div>';
 
 			$('body').append(html_snippet);
 
@@ -10197,12 +10197,127 @@ $__System.register('a', ['9'], function (_export) {
 		}
 	};
 });
-$__System.register('b', ['7', '9', 'a'], function (_export) {
+$__System.register('b', ['9', 'a'], function (_export) {
+	// =======================================================================================
+	// VARS
+	'use strict';
+
+	var $, lg, sessionID, testID;
+
+	// =======================================================================================
+	// TEST NOTES
+	//
+	// Test 1
+	// Target: Couches & Sofas
+	//
+	// =======================================================================================
+	// FUNCTIONS
+	// ----------------- START SESSION -----------------
+	function track_start_session() {
+		var urlParams = new URLSearchParams(window.location.search);
+		sessionID = Number(urlParams.get('session'));
+		testID = Number(urlParams.get('test'));
+		log_action('START SESSION');
+	}
+	// ----------------- TRACK CLICK ROW -----------------
+	function track_click_row($this) {
+		var this_row = undefined;
+		var ignore = 0;
+		var hasChild = 0;
+		if ($this.data('child')) {
+			hasChild = 1;
+		}
+		if ($this.hasClass('title')) {
+			this_row = $this.text();
+		} else if ($this.hasClass('complex')) {
+			this_row = $this.find('.lockup').text();
+		} else if ($this.hasClass('row-header')) {
+			ignore = 1;
+		} else {
+			this_row = $this.find('span').text();
+		}
+		if (!ignore) {
+			if (hasChild) {
+				log_action('SLIDE: ' + this_row);
+			} else {
+				log_action('TAPPED: ' + this_row);
+			}
+		}
+		var test_target = $this.data('test-target');
+		if (test_target === testID) {
+			log_action('SUCCESS');
+		}
+	}
+	// ----------------- TRACK CLICK BACK -----------------
+	function track_click_back($this) {
+		log_action('TAPPED: BACK');
+	}
+	// ----------------- TRACK TOGGLE MENU -----------------
+	function track_toggle_menu(action) {
+		log_action('TAPPED: ' + action + ' MENU BUTTON');
+	}
+	// ----------------- TRACK CLICK OVERLAY -----------------
+	function track_click_overlay() {
+		log_action('TAPPED: OVERLAY TO CLOSE MENU');
+	}
+	// ----------------- TRACK CLICK SEARCH -----------------
+	function track_click_search() {
+		log_action('TAPPED: SEARCH FIELD');
+	}
+	// ----------------- TRACK GET SEARCH STRING -----------------
+	function track_get_search_string($this) {
+		var input_value = $this.val();
+		if (input_value) {
+			log_action('SEARCHED: ' + input_value);
+		}
+	}
+	// ----------------- TRACK GET SEARCH STRING -----------------
+	function log_action(action) {}
+	/*
+ lg(`------<br>
+ 	sessionID: {blue{${sessionID}}}<br>
+ 	testID: {blue{${testID}}}<br>
+ 	timestamp: {blue{${Math.round(performance.now())}}}<br>
+ 	{yellow{${action}}}
+ 	`);
+ */
+
+	// =======================================================================================
+	// EXPORT
+	return {
+		setters: [function (_) {
+			$ = _['default'];
+		}, function (_a) {
+			lg = _a.lg;
+		}],
+		execute: function () {
+			sessionID = undefined;
+			testID = undefined;
+
+			_export('track_start_session', track_start_session);
+
+			_export('track_click_row', track_click_row);
+
+			_export('track_click_back', track_click_back);
+
+			_export('track_toggle_menu', track_toggle_menu);
+
+			_export('track_click_overlay', track_click_overlay);
+
+			_export('track_click_search', track_click_search);
+
+			_export('track_get_search_string', track_get_search_string);
+
+			//lg(`tracking {blue{loaded}}`);
+		}
+	};
+});
+$__System.register('c', ['7', '9', 'a', 'b'], function (_export) {
 	// =======================================================================================
 	// DOM
 	'use strict';
 
-	var _, $, lg, $menuButton, $menuDrawer, $menuDrawerX, $slider, $menuLink, $backBar, $menuBack, $header, $row, $rowStoreAndRewards, $rowGroup, $overlay, menuState, headerHeight, id, child, level;
+	var _, $, lg, track_start_session, track_click_row, track_click_back, track_toggle_menu, track_click_overlay, track_click_search, track_get_search_string, $menuButton, $menuDrawer, $menuDrawerX, $slider, $menuLink, $backBar, $menuBack, $header, $row, $rowStoreAndRewards, $rowGroup, $overlay, $searchInput, $searchButton, menuState, headerHeight, id, child, level;
 
 	// =======================================================================================
 	// FUNCTIONS
@@ -10302,6 +10417,14 @@ $__System.register('b', ['7', '9', 'a'], function (_export) {
 			$ = _2['default'];
 		}, function (_a) {
 			lg = _a.lg;
+		}, function (_b) {
+			track_start_session = _b.track_start_session;
+			track_click_row = _b.track_click_row;
+			track_click_back = _b.track_click_back;
+			track_toggle_menu = _b.track_toggle_menu;
+			track_click_overlay = _b.track_click_overlay;
+			track_click_search = _b.track_click_search;
+			track_get_search_string = _b.track_get_search_string;
 		}],
 		execute: function () {
 			$menuButton = $('.menu-button');
@@ -10316,6 +10439,8 @@ $__System.register('b', ['7', '9', 'a'], function (_export) {
 			$rowStoreAndRewards = $('.store-and-rewards').find('.row');
 			$rowGroup = $menuDrawer.find('.group');
 			$overlay = $('.overlay');
+			$searchInput = $('.search-input').find('input');
+			$searchButton = $('.search-input').find('.input-button');
 
 			// =======================================================================================
 			// VARS
@@ -10326,15 +10451,19 @@ $__System.register('b', ['7', '9', 'a'], function (_export) {
 			level = 0;
 			$menuButton.on('click', function () {
 				if (menuState === 0) {
+					track_toggle_menu('OPEN');
 					show_menu();
 				} else {
+					track_toggle_menu('CLOSE');
 					hide_menu();
 				}
 			});
 			$overlay.on('click', function () {
+				track_click_overlay();
 				hide_menu();
 			});
 			$menuLink.on('click', function () {
+				track_click_row($(this));
 				child = $(this).data('child');
 				if (child) {
 					id = $(this).data('id');
@@ -10342,7 +10471,22 @@ $__System.register('b', ['7', '9', 'a'], function (_export) {
 				}
 			});
 			$menuBack.on('click', function () {
+				track_click_back($(this));
 				shift_menu_back();
+			});
+			$searchInput.on('focus', function () {
+				track_click_search();
+			}).on('focusout', function () {
+				track_get_search_string($(this));
+			}).on('keyup', function (e) {
+				if (e.keyCode == 13) {
+					// return key
+					track_get_search_string($(this));
+					$searchInput.blur();
+				}
+			});
+			$searchButton.on('click', function () {
+				track_get_search_string($(this).parent().find('input'));
 			});
 			// =======================================================================================
 			// INIT
@@ -10374,13 +10518,15 @@ $__System.register('b', ['7', '9', 'a'], function (_export) {
 				}
 			});
 
+			track_start_session();
+
 			// =======================================================================================
 			// CHECK END
-			//lg(`header {green{loaded}}`);
+			//lg(`header {orange{loaded}}`);
 		}
 	};
 });
-$__System.register('1', ['a', 'b'], function (_export) {
+$__System.register('1', ['a', 'c'], function (_export) {
 
 													// Global
 													//import './forms';
@@ -10390,7 +10536,7 @@ $__System.register('1', ['a', 'b'], function (_export) {
 													return {
 																										setters: [function (_a) {
 																																							lg = _a.lg;
-																										}, function (_b) {}],
+																										}, function (_c) {}],
 																										execute: function () {}
 													};
 });
