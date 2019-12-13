@@ -10316,7 +10316,7 @@ $__System.register('c', ['7', '9', 'a', 'b'], function (_export) {
 	// DOM
 	'use strict';
 
-	var _, $, lg, track_start_session, track_click_row, track_click_back, track_toggle_menu, track_click_overlay, track_click_search, track_get_search_string, $menuButton, $menuDrawer, $menuDrawerX, $slider, $menuLink, $backBar, $menuBack, $header, $row, $rowStoreAndRewards, $rowGroup, $overlay, $searchInput, $searchButton, menuState, headerHeight, id, child, level;
+	var _, $, lg, track_start_session, track_click_row, track_click_back, track_toggle_menu, track_click_overlay, track_click_search, track_get_search_string, $menuButton, $menuDrawer, $menuDrawerX, $slider, $menuLink, $backBar, $menuBack, $header, $row, $rowStoreAndRewards, $rowGroup, $overlay, $searchInput, $searchButton, menuState, headerHeight, id, child, level, urlParams, variant;
 
 	// =======================================================================================
 	// FUNCTIONS
@@ -10448,6 +10448,8 @@ $__System.register('c', ['7', '9', 'a', 'b'], function (_export) {
 			id = 0;
 			child = 0;
 			level = 0;
+			urlParams = undefined;
+			variant = undefined;
 			$menuButton.on('click', function () {
 				if (menuState === 0) {
 					track_toggle_menu('OPEN');
@@ -10491,8 +10493,8 @@ $__System.register('c', ['7', '9', 'a', 'b'], function (_export) {
 			// INIT
 
 			$(window).on('load', function () {
-				var urlParams = new URLSearchParams(window.location.search);
-				var variant = urlParams.get('v');
+				urlParams = new URLSearchParams(window.location.search);
+				variant = urlParams.get('v');
 				switch (variant) {
 					case 'a1':
 						$('body').addClass('menuA1');
@@ -10515,6 +10517,18 @@ $__System.register('c', ['7', '9', 'a', 'b'], function (_export) {
 						document.title = 'SLIDER B2, Menu over, No X overlay';
 						break;
 				}
+				//lg(`variant: ${variant}`);
+
+				var $allLinks = $('a');
+				$allLinks.map(function (v, k) {
+					var url = $(k).attr('href');
+					if (url && url.length > 1) {
+						//lg(`url: ${url}`);
+						var new_url = url + '?v=' + variant;
+						//lg(`new_url: ${new_url}`);
+						$(k).attr('href', new_url);
+					}
+				});
 			});
 
 			track_start_session();
