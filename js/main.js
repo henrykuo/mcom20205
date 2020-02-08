@@ -10489,6 +10489,13 @@ $__System.register('c', ['7', '9', 'a', 'b'], function (_export) {
 			$searchButton.on('click', function () {
 				track_get_search_string($(this).parent().find('input'));
 			});
+			$('.spec-toggle').on('click', function () {
+				if ($('body').hasClass('spec')) {
+					$('body').removeClass('spec');
+				} else {
+					$('body').addClass('spec');
+				}
+			});
 			// =======================================================================================
 			// INIT
 
