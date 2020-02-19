@@ -10499,45 +10499,6 @@ $__System.register('c', ['7', '9', 'a', 'b'], function (_export) {
 			// =======================================================================================
 			// INIT
 
-			$(window).on('load', function () {
-				urlParams = new URLSearchParams(window.location.search);
-				variant = urlParams.get('v');
-				switch (variant) {
-					case 'a1':
-						$('body').addClass('menuA1');
-						document.title = 'SLIDER A1, Menu under, Icon no change, X overlay';
-						break;
-					case 'a2':
-						$('body').addClass('menuA2');
-						document.title = 'SLIDER A2, Menu under, Icon turns red, X overlay';
-						break;
-					case 'a3':
-						$('body').addClass('menuA3');
-						document.title = 'SLIDER A3, Menu under, Icon turns to X, No X overlay';
-						break;
-					case 'b1':
-						$('body').addClass('menuB1');
-						document.title = 'SLIDER B1, Menu over, X overlay';
-						break;
-					case 'b2':
-						$('body').addClass('menuB2');
-						document.title = 'SLIDER B2, Menu over, No X overlay';
-						break;
-				}
-				//lg(`variant: ${variant}`);
-
-				var $allLinks = $('a');
-				$allLinks.map(function (v, k) {
-					var url = $(k).attr('href');
-					if (url && url.length > 1) {
-						//lg(`url: ${url}`);
-						var new_url = url + '?v=' + variant;
-						//lg(`new_url: ${new_url}`);
-						$(k).attr('href', new_url);
-					}
-				});
-			});
-
 			track_start_session();
 
 			// =======================================================================================
